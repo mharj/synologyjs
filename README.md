@@ -55,3 +55,35 @@ synology.checkMd('md0')
   progress: '34.1%' 
 }
 ```
+
+## Simple expressjs setup
+```javascript
+const Synology = require('synologyjs');
+const synology = new Synology({host: 'synology',username: 'root',privateKey: './synology'});
+const express = require('express');
+const app = express();
+app.use(express.static('static'));
+app.get('/list', function (req, res) {
+	synology.getMdStatus()
+		.then(function(data){
+			res.end(JSON.stringify(data));
+		});
+});
+app.post('/check/:deviceId', function (req, res) {
+	if ( req.params.deviceId ) {
+		synology.checkMd(req.params.deviceId)
+			.then(function(data){
+				res.end(JSON.stringify(data));
+			})
+			.catch(function(err){
+				res.status(400).send(err.message);
+				res.end();
+			});
+	} else {
+		res.end();
+	}
+});
+app.listen(8080, function () {
+  console.log('app listening on port 8080!');
+});
+```
