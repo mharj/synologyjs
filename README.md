@@ -56,7 +56,7 @@ synology.checkMd('md0')
 }
 ```
 
-## Simple expressjs setup
+## Simple expressjs test setup
 ```javascript
 const Synology = require('synologyjs');
 const synology = new Synology({host: 'synology',username: 'root',privateKey: './synology'});
