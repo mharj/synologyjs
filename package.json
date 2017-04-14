@@ -1,0 +1,25 @@
+{
+  "name": "synologyjs",
+  "version": "0.0.1",
+  "description": "Synology md info and check action via node-ssh module",
+  "main": "synology.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mharj/synologyjs.git"
+  },
+  "keywords": [
+    "synology"
+  ],
+  "author": "mharj",
+  "license": "LGPL-2.1",
+  "bugs": {
+    "url": "https://github.com/mharj/synologyjs/issues"
+  },
+  "homepage": "https://github.com/mharj/synologyjs#readme",
+  "dependencies": {
+    "node-ssh": "^4.2.0"
+  }
+}
