@@ -48,3 +48,10 @@ synology.checkMd('md0')
     console.log(err);
   });
 ```
+
+```javascript
+{
+  action: 'check',
+  progress: '34.1%' 
+}
+```
