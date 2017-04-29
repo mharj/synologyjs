@@ -1,18 +1,10 @@
 {
   "name": "synologyjs",
-<<<<<<< HEAD
   "version": "0.0.2",
   "description": "Synology md info and check action via node-ssh module",
   "main": "synology.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha"
-=======
-  "version": "0.0.1",
-  "description": "Synology md info and check action via node-ssh module",
-  "main": "synology.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
->>>>>>> origin/master
   },
   "repository": {
     "type": "git",
@@ -29,12 +21,9 @@
   "homepage": "https://github.com/mharj/synologyjs#readme",
   "dependencies": {
     "node-ssh": "^4.2.0"
-<<<<<<< HEAD
   },
   "devDependencies": {
     "chai": "*",
     "mocha": "*"
-=======
->>>>>>> origin/master
   }
 }
