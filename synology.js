@@ -7,6 +7,62 @@ const sshMdCheck = new node_ssh();
 const listRegex = new RegExp(/^(md\d) : (\w+) (raid\w) (.*?)$/);
 const statusRegex = new RegExp(/(\w+) =\W+([\d|.]+%)/);
 
+const partitionNameNumber = new RegExp(/^(\w+)\[(\d+)\]/);
+const partitionSpare = new RegExp(/\(S\)$/);
+
+function parseMdPartitionData(data) {
+	var ret;
+	var name = data.match(partitionNameNumber);
+	if ( name ) {
+		ret = {};
+		ret.disk = name[1];
+		ret.number = name[2];
+		if ( data.match(partitionSpare) ) {
+			ret.isSpare = true;
+		}
+	}
+	return ret;
+}
+
+function parseMdData(data) {
+	let idx = null;
+	let parts = [];
+	data.split("\n").forEach(function(line) { // split each md as own part
+		let matches = line.match(/^md(\d+) /);
+		if ( matches )  {
+			idx = matches[1];
+			parts[idx] = "";
+		}
+		if ( idx && line.length > 0 ) {
+			parts[idx] += line+"\n";
+		}
+	});
+	let devices = [];
+	parts.forEach(function(part){
+		let device = {};
+		part.split("\n").forEach(function(line){
+			let match = line.match(listRegex);
+			if ( match ) {
+				device.device = match[1];
+				device.status = match[2];
+				device.type = match[3];
+				device.partitions = [];
+				match[4].split(" ").forEach(function(part){
+					device.partitions.push(parseMdPartitionData(part));
+				});
+			}
+			let status = line.match(statusRegex);
+			if ( status ) {
+				device.action = status[1];
+				device.progress = status[2]
+			}
+			
+		});
+		devices.push(device);
+	});
+	return devices;	
+}
+
 module.exports = function(sshOptions) {
 	let devicesCache = null;
 	/**
@@ -45,44 +101,15 @@ module.exports = function(sshOptions) {
 	 * @return [{device,status,type,partitions,action,progress}] array of md info
 	 */
 	this.getMdStatus = function() {
+		let self = this;
 		return sshMdList.connect(sshOptions)
 			.then(function() {
 				return sshMdList.execCommand('/bin/cat /proc/mdstat', { cwd:'/root' });
 			}).then(function(result) {
-				let idx = null;
-				let parts = [];
-				result.stdout.split("\n").forEach(function(line) { // split each md as own part
-					line = line.trim();
-					let matches = line.match(/^md(\d+) /);
-					if ( matches )  {
-						idx = matches[1];
-						parts[idx] = "";
-					}
-					if ( idx && line.length > 0 ) {
-						parts[idx] += line+"\n";
-					}
-				});
-				let devices = [];
-				parts.forEach(function(part){
-					let device = {};
-					part.split("\n").forEach(function(line){
-						let match = line.match(listRegex);
-						if ( match ) {
-							device.device = match[1];
-							device.status = match[2];
-							device.type = match[3];
-							device.partitions = match[4].split(" ");
-						}
-						let status = line.match(statusRegex);
-						if ( status ) {
-							device.action = status[1];
-							device.progress = status[2]
-						}
-					});
-					devices.push(device);
-				});
-				devicesCache = devices;
-				return devices;
+				self.deviceCache = parseMdData(result.stdout);
+				return self.deviceCache;
 			});
 	};
 };
+module.exports.parseMdStat = parseMdData;
+module.exports.parseMdPartitionData = parseMdPartitionData;
