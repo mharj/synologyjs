@@ -15,26 +15,124 @@ synology.getMdStatus()
   });
 ```
 ```javascript
-[ 
-  { device: 'md0',
-    status: 'active',
-    type: 'raid1',
-    partitions: [ 'sda1[0]', 'sdb1[1]', 'sdc1[2]', 'sdd1[3]', 'sde1[4]' ],
-    action: 'check',
-    progress: '34.1%'
+[
+  { "device": "md0",
+    "status": "active",
+    "type": "raid1",
+    "partitions": [
+      {
+        "disk": "sda1",
+        "number": "0"
+      },
+      {
+        "disk": "sdb1",
+        "number": "1"
+      },
+      {
+        "disk": "sdc1",
+        "number": "2"
+      },
+      {
+        "disk": "sdd1",
+        "number": "3"
+      },
+      {
+        "disk": "sde1",
+        "number": "4"
+      }
+    ],
+    "action": "resync",
+    "progress": "72.2%"
   },
-  { device: 'md1',
-    status: 'active',
-    type: 'raid1',
-    partitions: [ 'sda2[0]', 'sdb2[1]', 'sdc2[2]', 'sdd2[3]', 'sde2[4]' ] 
+  { "device": "md1",
+    "status": "active",
+    "type": "raid1",
+    "partitions": [
+      {
+        "disk": "sda2",
+        "number": "0"
+      },
+      {
+        "disk": "sdb2",
+        "number": "1"
+      },
+      {
+        "disk": "sdc2",
+        "number": "2"
+      },
+      {
+        "disk": "sdd2",
+        "number": "3"
+      },
+      {
+        "disk": "sde2",
+        "number": "4"
+      }
+    ],
+    "action": "recovery",
+    "progress": "0.4%"
   },
-  { device: 'md2',
-    status: 'active',
-    type: 'raid5',
-    partitions: [ 'sda5[0]', 'sde5[4]', 'sdd5[3]', 'sdc5[2]', 'sdb5[1]' ] 
-  } 
+  { "device": "md2",
+    "status": "active",
+    "type": "raid5",
+    "partitions": [
+      {
+        "disk": "sda5",
+        "number": "0"
+      },
+      {
+        "disk": "sde5",
+        "number": "4"
+      },
+      {
+        "disk": "sdd5",
+        "number": "3"
+      },
+      {
+        "disk": "sdc5",
+        "number": "2"
+      },
+      {
+        "disk": "sdb5",
+        "number": "1"
+      }
+    ],
+    "action": "check",
+    "progress": "0.2%"
+  },
+  { "device": "md9",
+    "status": "active",
+    "type": "raid5",
+    "partitions": [
+      {
+        "disk": "sdh1",
+        "number": "5",
+        "isSpare": true
+      },
+      {
+        "disk": "sdg1",
+        "number": "4"
+      },
+      {
+        "disk": "sdf1",
+        "number": "3"
+      },
+      {
+        "disk": "sde1",
+        "number": "2"
+      },
+      {
+        "disk": "sdd1",
+        "number": "1"
+      },
+      {
+        "disk": "sdc1",
+        "number": "0"
+      }
+    ]
+  }
 ]
- ```
+```
  
 ```javascript
 const Synology = require('synologyjs');
