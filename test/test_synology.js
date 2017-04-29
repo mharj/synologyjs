@@ -17,6 +17,7 @@ describe('mdstat parse', function() {
 
 	it('should parse all mdstat lines',function(done) {
 		var obj = mdParse(mdstatData);
+		console.log(JSON.stringify(obj,null,2));
 		expect(obj).to.be.an('array');
 		obj.forEach(function(md){
 			md.should.contain.all.keys('device', 'status','type','partitions');
