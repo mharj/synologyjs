@@ -15,59 +15,49 @@ synology.getMdStatus()
   });
 ```
 ```javascript
-[
-  { "device": "md0",
-    "status": "active",
-    "type": "raid1",
-    "partitions": [
-      { "disk": "sda1", "number": "0" },
-      { "disk": "sdb1", "number": "1" },
-      { "disk": "sdc1", "number": "2" },
-      { "disk": "sdd1", "number": "3" },
-      { "disk": "sde1", "number": "4" }
-    ],
-    "action": "resync",
-    "progress": "72.2%"
-  },
-  { "device": "md1",
-    "status": "active",
-    "type": "raid1",
-    "partitions": [
-      { "disk": "sda2", "number": "0" },
-      { "disk": "sdb2", "number": "1" },
-      { "disk": "sdc2", "number": "2" },
-      { "disk": "sdd2", "number": "3" },
-      { "disk": "sde2", "number": "4" }
-    ],
-    "action": "recovery",
-    "progress": "0.4%"
-  },
-  { "device": "md2",
-    "status": "active",
-    "type": "raid5",
-    "partitions": [
-      { "disk": "sda5", "number": "0" },
-      { "disk": "sde5", "number": "4" },
-      { "disk": "sdd5", "number": "3" },
-      { "disk": "sdc5", "number": "2" },
-      { "disk": "sdb5", "number": "1" }
-    ],
-    "action": "check",
-    "progress": "0.2%"
-  },
-  { "device": "md9",
-    "status": "active",
-    "type": "raid5",
-    "partitions": [
-      { "disk": "sdh1", "number": "5", "isSpare": true },
-      { "disk": "sdg1", "number": "4" },
-      { "disk": "sdf1", "number": "3" },
-      { "disk": "sde1", "number": "2" },
-      { "disk": "sdd1", "number": "1" },
-      { "disk": "sdc1", "number": "0" }
-    ]
-  }
-]
+[ { device: 'md0',
+    status: 'active',
+    type: 'raid1',
+    partitions:
+     [ { disk: 'sda1', idx: 0 },
+       { disk: 'sdb1', idx: 1 },
+       { disk: 'sdc1', idx: 2 },
+       { disk: 'sdd1', idx: 3 },
+       { disk: 'sde1', idx: 4 } ],
+    action: 'resync',
+    progress: '72.2%' },
+  { device: 'md1',
+    status: 'active',
+    type: 'raid1',
+    partitions:
+     [ { disk: 'sda2', idx: 0 },
+       { disk: 'sdb2', idx: 1 },
+       { disk: 'sdc2', idx: 2 },
+       { disk: 'sdd2', idx: 3 },
+       { disk: 'sde2', idx: 4 } ],
+    action: 'recovery',
+    progress: '0.4%' },
+  { device: 'md2',
+    status: 'active',
+    type: 'raid5',
+    partitions:
+     [ { disk: 'sda5', idx: 0 },
+       { disk: 'sdb5', idx: 1 },
+       { disk: 'sdc5', idx: 2 },
+       { disk: 'sdd5', idx: 3 },
+       { disk: 'sde5', idx: 4 } ],
+    action: 'check',
+    progress: '0.2%' },
+  { device: 'md9',
+    status: 'active',
+    type: 'raid5',
+    partitions:
+     [ { disk: 'sdc1', idx: 0 },
+       { disk: 'sdd1', idx: 1 },
+       { disk: 'sde1', idx: 2 },
+       { disk: 'sdf1', idx: 3 },
+       { disk: 'sdg1', idx: 4 },
+       { disk: 'sdh1', idx: 5, isSpare: true } ] } ]
 ```
  
 ```javascript
