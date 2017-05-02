@@ -6,6 +6,7 @@ chai.should();
 const mdParse = require('../synology.js').parseMdStat;
 const mdParsePartition = require('../synology.js').parseMdPartitionData;
 const fs = require('fs');
+const util = require('util');
 
 let mdstatData = null;
 
@@ -19,7 +20,7 @@ describe('mdstat parse', function() {
 
 	it('should parse all mdstat lines', function(done) {
 		let obj = mdParse(mdstatData);
-		console.log(JSON.stringify(obj, null, 2));
+//		console.log(util.inspect(obj, false, null));
 		expect(obj).to.be.an('array');
 		obj.forEach(function(md) {
 			md.should.contain.all.keys('device', 'status', 'type', 'partitions');
