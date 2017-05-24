@@ -56,7 +56,8 @@ function parseMdData(data) {
 				device.type = match[3];
 				device.partitions = [];
 				match[4].split(' ').forEach(function(part) {
-					device.partitions.push(parseMdPartitionData(part));
+					let partData = parseMdPartitionData(part);
+					device.partitions[partData.idx]=partData;
 				});
 			}
 			let status = line.match(statusRegex);
