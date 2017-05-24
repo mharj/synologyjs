@@ -38,3 +38,9 @@ jspm_packages
 
 # eslint
 .eslintrc.js
+
+# jshint
+.jshintrc
+
+# VSC
+.vscode

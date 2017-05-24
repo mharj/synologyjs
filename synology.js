@@ -1,12 +1,10 @@
-/* jshint esversion: 6, node: true */
-/* eslint-env node, es6 */
 'use strict';
 const NodeSsh = require('node-ssh');
 const sshMdList = new NodeSsh();
 const sshMdCheck = new NodeSsh();
 const listRegex = new RegExp(/^(md\d) : (\w+) (raid\w) (.*?)$/);
 const statusRegex = new RegExp(/(\w+) =\W+([\d|.]+%)/);
-const partitionNameNumber = new RegExp(/^(\w+)\[(\d+)\]/);
+const partitionNameNumber = new RegExp(/^([a-z]+)(\d+)\[(\d+)\]/);
 const partitionSpare = new RegExp(/\(S\)$/);
 
 /**
@@ -20,7 +18,8 @@ function parseMdPartitionData(data) {
 	if ( name ) {
 		ret = {};
 		ret.disk = name[1];
-		ret.idx = parseInt(name[2]);
+		ret.part = parseInt(name[2]);
+		ret.idx = parseInt(name[3]);
 		if ( data.match(partitionSpare) ) {
 			ret.isSpare = true;
 		}
@@ -58,7 +57,7 @@ function parseMdData(data) {
 				device.partitions = [];
 				match[4].split(' ').forEach(function(part) {
 					let diskPart = parseMdPartitionData(part);
-					device.partitions[diskPart.idx]=diskPart;
+					device.partitions[diskPart.part]=diskPart;
 				});
 			}
 			let status = line.match(statusRegex);

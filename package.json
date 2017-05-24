@@ -4,7 +4,7 @@
   "description": "Synology md info and check action via node-ssh module",
   "main": "synology.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha"
+    "test": "nyc --reporter=html mocha"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "chai": "*",
     "eslint": "^3.19.0",
     "eslint-config-google": "^0.7.1",
-    "mocha": "*"
+    "mocha": "*",
+    "nyc": "^10.3.2"
   }
 }
