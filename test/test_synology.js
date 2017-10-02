@@ -32,12 +32,10 @@ describe('mdstat parse', function() {
 
 	it('should parse partition info', function(done) {
 		let obj = mdParsePartition('hda1[5]');
-		expect(obj).to.be.object;
 		obj.should.have.all.keys(['disk', 'idx', 'part']);
 		expect(obj).to.deep.equal({disk: 'hda', part: 1, idx: 5});
 
 		obj = mdParsePartition('hda4[5](S)');
-		expect(obj).to.be.object;
 		obj.should.have.all.keys(['disk', 'idx', 'part', 'isSpare']);
 		expect(obj).to.deep.equal({disk: 'hda', part: 4, idx: 5, isSpare: true});
 		done();
