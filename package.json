@@ -4,9 +4,10 @@
   "description": "Synology md info and check action via node-ssh module",
   "main": "synology.js",
   "scripts": {
+    "build": "tsc",
     "mocha": "node_modules/mocha/bin/mocha",
     "nyc": "node_modules/nyc/bin/nyc.js",
-    "test": "nyc --reporter=html mocha"
+    "test": "nyc mocha ./test/*.ts"
   },
   "repository": {
     "type": "git",
@@ -21,14 +22,34 @@
     "url": "https://github.com/mharj/synologyjs/issues"
   },
   "homepage": "https://github.com/mharj/synologyjs#readme",
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "all": true
+  },
   "dependencies": {
-    "node-ssh": "^4.2.3"
+    "ssh2": "^0.8.2"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "eslint": "^3.19.0",
-    "eslint-config-google": "^0.7.1",
-    "mocha": "^3.5.3",
-    "nyc": "^10.3.2"
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^11.11.6",
+    "@types/ssh2": "^0.5.38",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "source-map-support": "^0.5.11",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.4000"
   }
 }
