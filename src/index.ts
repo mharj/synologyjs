@@ -8,27 +8,24 @@ export class LinuxMdInfo {
 	constructor(options: ConnectConfig) {
 		this.sshOptions = options;
 	}
-	public checkMd = async (md: string): Promise<void> => {
+	public checkMd = async (md: string): Promise<string> => {
 		if (!this.devicesCache) {
 			this.devicesCache = await this.getMdStatus();
 		}
 		if (this.devicesCache.find((d) => d.device === md)) {
+			const procBlockAction = process.env.NODE_ENV === 'test' ? `/tmp/${md}_sync_action` : `/sys/block/${md}/md/sync_action`;
 			const commands = [
-				'/bin/echo check > /sys/block/' + md + '/md/sync_action',
-				'/bin/cat /sys/block/' + md + '/md/sync_action',
-				'/bin/cat /proc/mdstat | /bin/grep -A2 ^' + md,
+				'/bin/echo check > ' + procBlockAction,
+				'/bin/cat ' + procBlockAction,
 			];
-			await sshUtil(this.sshOptions, commands.join(' && '));
+			const action = await sshUtil(this.sshOptions, commands.join(' && ')) as Buffer;
+			return action.toString();
 		} else {
 			throw new Error('not valid md device');
 		}
-		return;
 	};
 	public getMdStatus = async (): Promise<IDevice[]> => {
-		const raidData = await sshUtil(this.sshOptions, '/bin/cat /proc/mdstat');
-		if (!raidData) {
-			throw new Error('no raid data');
-		}
-		return parseMdStat(raidData);
+		const raidData = await sshUtil(this.sshOptions, '/bin/cat /proc/mdstat') as Buffer;
+		return parseMdStat(raidData.toString());
 	};
 }

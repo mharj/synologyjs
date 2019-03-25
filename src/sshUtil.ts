@@ -1,6 +1,6 @@
 import {Client, ConnectConfig} from 'ssh2';
 
-export const sshUtil = (config: ConnectConfig, cmd: string, stdout?: (data: string) => void): Promise<void | string> => {
+export const sshUtil = (config: ConnectConfig, cmd: string, stdout?: (data: Buffer) => void): Promise<void | Buffer> => {
 	const isStream = stdout ? true : false;
 	const ssh = new Client();
 	return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ export const sshUtil = (config: ConnectConfig, cmd: string, stdout?: (data: stri
 					if (err) {
 						reject(err);
 					} else {
-						let buffer = '';
+						const buffer: Buffer[] = [];
 						stream
 							.on('close', (code: number, signal: number) => {
 								ssh.end();
@@ -18,24 +18,27 @@ export const sshUtil = (config: ConnectConfig, cmd: string, stdout?: (data: stri
 									if (isStream && stdout) {
 										resolve();
 									} else {
-										resolve(buffer);
+										resolve(Buffer.concat(buffer));
 									}
 								} else {
 									reject(new Error('Error code:' + code));
 								}
 							})
-							.on('data', (data: string) => {
+							.on('data', (data: Buffer) => {
 								if (isStream && stdout) {
 									stdout(data);
 								} else {
-									buffer += data;
+									buffer.push(data);
 								}
 							})
 							.stderr.on('data', (data) => {
-								console.log('STDERR: ' + data);
+								// console.log('STDERR: ' + data);
 							});
 					}
 				});
+			})
+			.on('error',(err) => {
+				reject(err);
 			})
 			.connect(config);
 	});
